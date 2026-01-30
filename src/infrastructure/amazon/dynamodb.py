@@ -19,12 +19,26 @@ TVersion = TypeVar("TVersion")
 
 
 class DynamoFileMetadataRepository(FileMetadataRepository):
+    """
+    DynamoDB implementation of the FileMetadataRepository interface.
+    """
 
     def __init__(
         self,
         table,
         version_cls: Type[TVersion]
     ):
+        """
+        Initialize the DynamoFileMetadataRepository with a DynamoDB table and a version class.
+
+        Args:
+            table: The DynamoDB table to use.
+            version_cls (Type[TVersion]): The version class to use for deserialization.
+
+        Returns:
+            None
+        """
+
         self._table = table
         self._version_cls = version_cls
 
@@ -33,6 +47,16 @@ class DynamoFileMetadataRepository(FileMetadataRepository):
         self,
         id: str
     ) -> Optional[TVersion]:
+        """
+        Get the active version of a file by its ID.
+
+        Args:
+            id (str): The ID of the file to retrieve.
+
+        Returns:
+            Optional[TVersion]: The active version of the file, or None if not found.
+        """
+
         response = self._table.query(
             KeyConditionExpression=Key("id").eq(id),
             FilterExpression=Attr("status").eq("ACTIVE"),
@@ -52,6 +76,16 @@ class DynamoFileMetadataRepository(FileMetadataRepository):
         self,
         id: str
     ) -> List[TVersion]:
+        """
+        Get all versions of a file by its ID.
+
+        Args:
+            id (str): The ID of the file to retrieve.
+
+        Returns:
+            List[TVersion]: A list of all versions of the file.
+        """
+
         response = self._table.query(
             KeyConditionExpression=Key("id").eq(id),
             ScanIndexForward=False
@@ -65,6 +99,16 @@ class DynamoFileMetadataRepository(FileMetadataRepository):
         self,
         id: str
     ) -> None:
+        """
+        Deactivate all versions of a file by its ID.
+
+        Args:
+            id (str): The ID of the file to deactivate.
+
+        Returns:
+            None
+        """
+
         active = self.get_active(id)
 
         if not active:
@@ -81,6 +125,16 @@ class DynamoFileMetadataRepository(FileMetadataRepository):
         self,
         id: str
     ) -> None:
+        """
+        Delete all versions of a file by its ID.
+
+        Args:
+            id (str): The ID of the file to delete.
+
+        Returns:
+            None
+        """
+
         versions = self.get_versions(id)
 
         for version in versions:
@@ -100,6 +154,17 @@ class DynamoFileMetadataRepository(FileMetadataRepository):
         version: TVersion,
         path: str
     ) -> None:
+        """
+        Save a file version to the DynamoDB table.
+
+        Args:
+            version (TVersion): The file version to save.
+            path (str): The storage path of the file.
+
+        Returns:
+            None
+        """
+
         data = asdict(version)
         data["storage_path"] = path
 
@@ -110,6 +175,16 @@ class DynamoFileMetadataRepository(FileMetadataRepository):
         self,
         item: dict
     ) -> TVersion:
+        """
+        Deserialize a DynamoDB item into a version object.
+
+        Args:
+            item (dict): The DynamoDB item to deserialize.
+
+        Returns:
+            TVersion: The deserialized version object.
+        """
+
         allowed_fields = self._version_cls.__dataclass_fields__.keys()
         filtered = {k: v for k, v in item.items() if k in allowed_fields}
         return self._version_cls(**filtered)

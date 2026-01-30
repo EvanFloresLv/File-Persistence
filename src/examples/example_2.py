@@ -9,7 +9,7 @@ if __name__ == "__main__":
     from src.infrastructure.google.gcs import GCSStorage
     from src.infrastructure.google.clients import gcs_client, firestore_client
 
-    from src.domain.file import Lifecycle, Metadata, Versioning, FileVersionCustom
+    from src.examples.custom_entities import Lifecycle, Metadata, Versioning, FileVersionCustom
 
     gcs = gcs_client()
     fs = firestore_client()

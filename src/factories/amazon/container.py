@@ -13,6 +13,17 @@ def file_service(
     folder: str,
     table_name: str
 ):
+    """
+    Create a FileService instance for Amazon S3 and DynamoDB.
+
+    Args:
+        bucket_name (str): The name of the S3 bucket.
+        folder (str): The folder within the bucket.
+        table_name (str): The DynamoDB table name.
+
+    Returns:
+        FileService: The configured FileService instance.
+    """
 
     s3 = s3_client()
     dynamodb = dynamo_client()

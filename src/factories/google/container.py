@@ -13,6 +13,17 @@ def file_service(
     folder: str,
     collection_name: str
 ):
+    """
+    Create a FileService instance for Google Cloud Storage and Firestore.
+
+    Args:
+        bucket_name (str): The name of the GCS bucket.
+        folder (str): The folder within the bucket.
+        collection_name (str): The Firestore collection name.
+
+    Returns:
+        FileService: The configured FileService instance.
+    """
 
     fs = firestore_client()
     gcs = gcs_client()
