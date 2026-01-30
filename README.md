@@ -135,7 +135,7 @@ storage_module/
  ├── infrastructure/    # Infrastructure concerns (e.g., storage)
  ├── factories/         # Factory functions for creating instances
  ├── examples/          # Example use cases and integrations
- └── config/          # Configuration files and environment
+ └── config/            # Configuration files and environment
 
 ```
 ---
