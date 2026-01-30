@@ -80,19 +80,21 @@ Cloud Storage (Files)
 
 ---
 
-📦 Installation
-**```pip install <url>```**
-
-
-**Or install from source:**
-
+## Installation
+```bash
+pip install <url>
 ```
+
+
+Or install from source:
+
+```bash
 git clone https://github.com/your-org/project-name.git
 cd project-name
 pip install -e .
 ```
 
-**Usage**
+Usage
 ```python
 from dataclasses import dataclass
 from persistence import FileService
@@ -115,37 +117,53 @@ service.upload_file(
 
 Configuration is done via environment variables or config files:
 
-> STORAGE_PROVIDER=gcs
-> NOSQL_PROVIDER=firestore
-> BUCKET_NAME=my-bucket
-> PROJECT_ID=my-project
+```
+STORAGE_PROVIDER=gcs
+NOSQL_PROVIDER=firestore
+BUCKET_NAME=my-bucket
+PROJECT_ID=my-project
+```
+
+---
 
 ### Project Structure
 
+```
 src/
  ├── domain/          # Entities, value objects, dataclasses
  ├── services/        # Business logic
  ├── repositories/    # Persistence abstractions
  ├── infrastructure/  # Cloud and NoSQL adapters
- ├── api/              # Interfaces (REST/CLI)
- └── config/
-
+ ├── api/             # Interfaces (REST/CLI)
+ └── config/          # Configuration files and environment
+```
+---
 
 ### Development
+```bash
 pip install -r requirements-dev.txt
 pre-commit install
+```
+
+---
 
 ### Testing
+```
 pytest tests/
+```
+
+---
 
 ### Deployment
 
 The service can be deployed as:
 
->Python SDK library
->FastAPI microservice
->Serverless function (Cloud Run / Lambda / Azure Functions)
->Internal data platform component
+```
+Python SDK library
+FastAPI microservice
+Serverless function (Cloud Run / Lambda / Azure Functions)
+Internal data platform component
+```
 
 ---
 
