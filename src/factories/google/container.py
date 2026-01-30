@@ -1,11 +1,11 @@
 # ---------------------------------------------------------------------
 # Internal application imports
 # ---------------------------------------------------------------------
-from src.services.files import FileService
+from src.application.use_cases import FileService
 
-from src.providers.google.gcs import GCSStorage
-from src.providers.google.firestore import FirestoreFileMetadataRepository
-from src.providers.google.clients import firestore_client, gcs_client
+from src.infrastructure.google.gcs import GCSStorage
+from src.infrastructure.google.firestore import FirestoreFileMetadataRepository
+from src.infrastructure.google.clients import firestore_client, gcs_client
 
 
 def file_service(

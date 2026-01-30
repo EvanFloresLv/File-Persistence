@@ -135,7 +135,17 @@ src/
  ├── repositories/    # Persistence abstractions
  ├── infrastructure/  # Cloud and NoSQL adapters
  ├── api/             # Interfaces (REST/CLI)
+ ├── examples/        # Example use cases and integrations
  └── config/          # Configuration files and environment
+
+storage_module/
+ ├── domain/            # Domain models and business logic
+ ├── application/       # Application logic and use cases
+ ├── infrastructure/    # Infrastructure concerns (e.g., storage)
+ ├── factories/         # Factory functions for creating instances
+ ├── examples/          # Example use cases and integrations
+ └── README.md
+
 ```
 ---
 

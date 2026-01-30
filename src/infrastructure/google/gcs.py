@@ -35,12 +35,17 @@ class GCSStorage(FileStorage):
         path: str
     ) -> None:
         prefix = path.rstrip("/") + "/"
+        print(f"Deleting all blobs under prefix: {prefix}")
 
         try:
-            blobs = self._bucket.list_blobs(prefix=prefix)
+            blobs = list(self._bucket.list_blobs(prefix=prefix))
+
+            if not blobs:
+                print(f"No blobs found under prefix: {prefix}")
 
             for blob in blobs:
                 blob.delete()
+                print(f"Deleted {blob.name} from bucket {self._bucket.name}")
 
         except Forbidden as exc:
             raise PermissionError(

@@ -32,8 +32,8 @@ class FirestoreFileMetadataRepository(FileMetadataRepository):
     def get_active(
         self,
         id: str
-        ) -> Optional[TVersion]:
-        docs = (
+    ) -> Optional[TVersion]:
+        docs = list(
             self._collection
             .where(
                 filter=And(
@@ -47,13 +47,11 @@ class FirestoreFileMetadataRepository(FileMetadataRepository):
             .stream()
         )
 
-        for doc in docs:
-            doc_dict = doc.to_dict()
-            allowed_fields = set(f.name for f in self._version_cls.__dataclass_fields__.values())
-            filtered_dict = {k: v for k, v in doc_dict.items() if k in allowed_fields}
-            return self._version_cls(**filtered_dict)
+        if not docs:
+            return None
 
-        return None
+        doc_dict = docs[0].to_dict()
+        return self._deserialize(doc_dict)
 
 
     def get_versions(
@@ -104,3 +102,12 @@ class FirestoreFileMetadataRepository(FileMetadataRepository):
         data = asdict(version)
         data["storage_path"] = path
         self._collection.add(data)
+
+
+    def _deserialize(
+        self,
+        item: dict
+    ) -> TVersion:
+        allowed_fields = self._version_cls.__dataclass_fields__.keys()
+        filtered = {k: v for k, v in item.items() if k in allowed_fields}
+        return self._version_cls(**filtered)
